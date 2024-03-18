@@ -12,7 +12,7 @@ class CategoryController extends Controller
         $categories = Category::where('parent_id', null)->with('children')->get();
         // dd($categories[0]);
 
-        return view('category', compact('categories'));
+        return view('categories.index', compact('categories'));
     }
 
     public function update(Request $request, $id)
@@ -29,8 +29,18 @@ class CategoryController extends Controller
         return redirect()->route('category.index');
     }
 
+    public function edit($id)
+    {
+        $categories = Category::where('parent_id', null)->with('children')->get();
+
+        $category = Category::find($id);
+        $parent_categories = Category::where('parent_id', null)->get();
+        return view('categories.edit', compact('categories', 'category', 'parent_categories'));
+    }
+
     // public function create() {
         
     //     return view('categories.create')
     // }
+
 }

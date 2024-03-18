@@ -1,5 +1,4 @@
 @extends('layout.main')
-
 @section('css')
 <style>
     input[disabled] {
@@ -66,7 +65,7 @@
                         </form>
                         <a class="btn btn-danger btn-sm btn_cancel" hidden><i class="fas fa-times"></i></a>
                         <form action="{{route('category.destroy', $category->id)}}" method="POST" style="display: inline-block;">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm btn_delete" hidden><i class="fas fa-trash"></i></button></form>
-                        <form action="{{route('category.edit', $category->id)}}" method="POST" style="display: inline-block;">@csrf @method('DELETE')<button type="submit" class="btn btn-info btn-sm btn_plus" hidden><i class="fa fa-plus"></i></button></form>
+                        <form action="{{route('category.edit', $category->id)}}" method="POST" style="display: inline-block;">@csrf @method('GET')<button type="submit" class="btn btn-info btn-sm btn_plus" hidden><i class="fa fa-plus"></i></button></form>
                     </td>
                     <td>
                         @foreach ($category->children as $child)

@@ -1,9 +1,9 @@
-@extends('layout.main')
+{{-- @extends('layout.main') --}}
 
 @section('css')
 @endsection
 @section('main')
-        <!-- Content Header (Page header) -->
+        {{-- <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
               <div class="row mb-2">
@@ -49,7 +49,7 @@
             <!-- /.card -->
       
           </section>
-          <!-- /.content -->
+          <!-- /.content --> --}}
 @endsection
 @section('scripts')
 @endsection

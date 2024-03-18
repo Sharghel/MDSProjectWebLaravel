@@ -42,3 +42,4 @@ Route::get('/settings', function () {
 })->middleware(['auth', 'verified'])->name('settings');
 
 require __DIR__.'/auth.php';
+
