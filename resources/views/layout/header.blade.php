@@ -10,7 +10,7 @@
             <a href="{{route('dashboard')}}" class="nav-link">Dashboard</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{route('settings')}}" class="nav-link"><i class="fas fa-wrench"></i> Settings </a>
+            <a href="{{route('category.index')}}" class="nav-link"><i class="fas fa-wrench"></i> Settings </a>
         </li>
     </ul>
 

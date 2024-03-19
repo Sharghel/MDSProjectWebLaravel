@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/categories/store', [CategoryController::class, 'store'])->name('category.store'); // enregistre une catégorie
     Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit'); // affiche le formulaire d'édition
     Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->name('category.update'); // modifie une catégorie
-    Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('category.destroy'); // supprime une catégorie
+    Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('category.destroy'); // supprime une catégorie 
 });
 
 Route::get('/settings', function () {
