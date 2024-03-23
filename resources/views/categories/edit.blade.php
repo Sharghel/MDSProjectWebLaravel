@@ -8,139 +8,128 @@
     padding: 0;
     color:#212529;
     }
-</style>
+  .select2-container--default .select2-selection--single {
+    line-height: 15px;
+    height: 40px;
+  }
+  </style>
 @endsection
 @section('main')
 <section class="content">
   <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-3">
-          <!-- Profile Image -->
-          <div class="card card-primary card-outline">
-            <div class="card-body box-profile">
-              <div class="text-center">
-                <i class="fas fa-file fa-7x"></i>
-                {{-- <img class="profile-user-img img-fluid img-circle" src="{{asset('img/user4-128x128.jpg')}}" alt="Image for the category"> --}}
-              </div>
-              <h3 class="profile-username text-center">Logo de la catégorie</h3>
-              {{-- <ul>
-                <li><i class="fas fa-file"></i></li>
-                <li><i class="fas fa-filter"></i></li>
-                <li><i class="fas fa-folder"></i></li>
-                <li><i class="fas fa-folder-open"></i></li>
-                <li><i class="fas fa-code"></i></li>
-                <li><i class="fas fa-bug"></i></li>
-                <li><i class="fas fa-user-secret"></i></li>
-                <li><i class="fas fa-microchip"></i></li>
-                <li><i class="fas fa-terminal"></i></li>
-                <li><i class="fas fa-keyboard"></i></li>
-                <li><i class="fas fa-laptop-code"></i></li>
-              </ul> --}}
-              {{-- <select name="logo" id="logo">
-                <option value="1"><i class="fas fa-shield-halved"></i></option>
-                <option value="2"><i class="fas fa-file"></i></option>
-                <option value="3"><i class="fas fa-gear"></i></option>
-                <option value="4"><i class="fas fa-filter"></i></option>
-                <option value="5"><i class="fas fa-folder"></i></option>
-                <option value="6"><i class="fas fa-folder-open"></i></option>
-                <option value="7"><i class="fas fa-code"></i></option>
-                <option value="8"><i class="fas fa-bug"></i></option>
-                <option value="9"><i class="fas fa-user-secret"></i></option>
-                <option value="10"><i class="fas fa-microchip"></i></option>
-                <option value="11"><i class="fas fa-terminal"></i></option>
-                <option value="12"><i class="fas fa-keyboard"></i></option>
-                <option value="13"><i class="fas fa-laptop-code"></i></option>
-              </select> --}}
-              </p>
-              <ul class="list-group list-group-unbordered mb-3">
-                <li class="list-group-item">
-                  <b>Catégorie Parent</b> <a class="float-right">{{$category->parent->name}}</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Catégorie</b> <a class="float-right">{{$category->name}}</a>
-                </li>
-              </ul>
-              {{-- <form action="{{route('category.destroy', $category->id)}}" method="POST">@csrf @method('DELETE')<input type="submit" class="btn btn-block btn-danger btn_delete" value="Supprimer"></input></form> --}}
-              <button type="button" data-toggle="modal" data-target="#modal-danger-category" class="btn btn-block btn-danger">Supprimer</button>
+    <div class="row">
+      <div class="col-md-3">
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile">
+            <div class="text-center">
+              @if($category->icon == null)
+                <i class="fas fa-circle nav-icon fa-7x"></i>
+              @else
+                <i class="fas {{ $category->icon }} fa-7x"></i>
+              @endif
             </div>
-            <!-- /.card-body -->
+            <h3 class="profile-username text-center">Icône de la catégorie</h3>
+            <ul class="list-group list-group-unbordered mb-3">
+              <li class="list-group-item">
+                <b>Catégorie Parent</b> <a class="float-right">{{$category->parent->name}}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Catégorie</b> <a class="float-right">{{$category->name}}</a>
+              </li>
+            </ul>
+            {{-- <form action="{{route('category.destroy', $category->id)}}" method="POST">@csrf @method('DELETE')<input type="submit" class="btn btn-block btn-danger btn_delete" value="Supprimer"></input></form> --}}
+            <button type="button" data-toggle="modal" data-target="#modal-danger-category" class="btn btn-block btn-danger">Supprimer</button>
           </div>
-          <!-- /.card -->
+        <!-- /.card-body -->
         </div>
-        <!-- /.col -->
-        <div class="col-md-9">
-          <div class="card">
-            <div class="card-header p-2">
-              <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link {{ $activeTab === 'modification' ? 'active ' : '' }}" href="#modification" data-toggle="tab">Modification</a></li>
-                <li class="nav-item"><a class="nav-link {{ $activeTab === 'flux' ? 'active ' : '' }}" href="#flux" data-toggle="tab">Flux</a></li>
-              </ul>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-              <div class="tab-content">
-                <!-- /.tab-pane -->
-                <div class="{{ $activeTab === 'modification' ? 'active ' : '' }} tab-pane" id="modification">
-                  <form action="{{ route('category.update', $category->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    
-                    <div class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-primary">Nom de la Catégorie Parent</span>
-                      </div>
-                      <div>
-                        <i class="fas fa-user bg-primary"></i>
-                        <div class="timeline-item">
-                          <h3 class="timeline-header">Choix d'une catégorie parent : </h3>    
-                          <div class="timeline-body">
-                            <select name="parent_id">
-                              <option value="">Sélectionner un parent si besoin</option>
-                              @if($parent_categories)
-                                @foreach($parent_categories as $parent_category)
-                                  @if($parent_category->id == $category->parent_id)
-                                    <option value="{{ $parent_category->id }}" selected>{{ $parent_category->name }}</option>
-                                  @else
-                                    <option value="{{ $parent_category->id }}">{{ $parent_category->name }}</option>
-                                  @endif
-                                @endforeach
-                              @endif
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- timeline item -->
-                      
-                      <div class="time-label">
-                        <span class="bg-primary"> Nom de la Catégorie</span>
-                      </div>
-                      <div>
-                        <i class="fas fa-user bg-primary"></i>
-                        <div class="timeline-item">
-                          <h3 class="timeline-header">Renommer la catégorie : </h3>          
-                          <div class="timeline-body">
-                            <input type="text" name="name" placeholder="name" value="{{ $category->name ?? '' }}">
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div class="time-label">
-                        <span class="bg-info"> Logo de la Catégorie</span>
-                      </div>
-                      <div>
-                        <i class="fab fa-joomla bg-info"></i>
-                        <div class="timeline-item">
-                          <h3 class="timeline-header">Changer le logo : </h3>          
-                          <div class="timeline-body">
-                            <input type="text" name="name" placeholder="name" value="{{ $category->name ?? '' }}">
-                          </div>
-                        </div>
-                      </div>  
+      <!-- /.card -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              <li class="nav-item"><a class="nav-link {{ $activeTab === 'modification' ? 'active ' : '' }}" href="#modification" data-toggle="tab">Modification</a></li>
+              <li class="nav-item"><a class="nav-link {{ $activeTab === 'flux' ? 'active ' : '' }}" href="#flux" data-toggle="tab">Flux</a></li>
+            </ul>
+          </div><!-- /.card-header -->
+          <div class="card-body">
+            <div class="tab-content">
+              <!-- /.tab-pane -->
+              <div class="{{ $activeTab === 'modification' ? 'active ' : '' }} tab-pane" id="modification">
+                <form action="{{ route('category.update', $category->id) }}" method="POST">
+                  @csrf
+                  @method('PUT')
+                  
+                  <div class="timeline timeline-inverse">
+                    <!-- timeline time label -->
+                    <div class="time-label">
+                      <span class="bg-primary">Nom de la Catégorie Parent</span>
                     </div>
-                    <input type="submit" class="btn btn-block btn-primary" value="Modifier">
-                    <a href="{{ route('category.index') }}" class="btn btn-block btn-secondary">Annuler</a>
-                  </form>
-                </div>
+                    <div>
+                      <i class="fas fa-user bg-primary"></i>
+                      <div class="timeline-item">
+                        <h3 class="timeline-header">Choix d'une catégorie parent : </h3>    
+                        <div class="timeline-body">
+                          <select name="parent_id">
+                            <option value="">Sélectionner un parent si besoin</option>
+                            @if($parent_categories)
+                              @foreach($parent_categories as $parent_category)
+                                @if($parent_category->id == $category->parent_id)
+                                  <option value="{{ $parent_category->id }}" selected>{{ $parent_category->name }}</option>
+                                @else
+                                  <option value="{{ $parent_category->id }}">{{ $parent_category->name }}</option>
+                                @endif
+                              @endforeach
+                            @endif
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- timeline item -->
+                    <div class="time-label">
+                      <span class="bg-primary"> Nom de la Catégorie</span>
+                    </div>
+                    <div>
+                      <i class="fas fa-user bg-primary"></i>
+                      <div class="timeline-item">
+                        <h3 class="timeline-header">Renommer la catégorie : </h3>          
+                        <div class="timeline-body">
+                          <input type="text" name="name" placeholder="name" value="{{ $category->name ?? '' }}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="time-label">
+                      <span class="bg-info"> Icône de la Catégorie</span>
+                    </div>
+                    <div>
+                      <i class="fab fa-joomla bg-info"></i>
+                      <div class="timeline-item">
+                        <h3 class="timeline-header">Changer l'icône : </h3>
+                        <div class="timeline-body">
+                          <select name="icon" class="form-control select2" style="width: 100%;" data-minimum-results-for-search="-1">
+                            <option value="">Aucun icône</option>
+                            <option value="fa-file" {{ $category->icon == 'fa-file' ? 'selected' : '' }} data-icon="fa-file">File</option>
+                            <option value="fa-filter" {{ $category->icon == 'fa-filter' ? 'selected' : '' }} data-icon="fa-filter">Filter</option>
+                            <option value="fa-folder" {{ $category->icon == 'fa-folder' ? 'selected' : '' }} data-icon="fa-folder">Dossier</option>
+                            <option value="fa-folder-open" {{ $category->icon == 'fa-folder-open' ? 'selected' : '' }} data-icon="fa-folder-open">Dossier Ouvert</option>
+                            <option value="fa-code" {{ $category->icon == 'fa-code' ? 'selected' : '' }} data-icon="fa-code">Code</option>
+                            <option value="fa-bug" {{ $category->icon == 'fa-bug' ? 'selected' : '' }} data-icon="fa-bug">Bug</option>
+                            <option value="fa-user-secret" {{ $category->icon == 'fa-user-secret' ? 'selected' : '' }} data-icon="fa-user-secret">Utilisateur Secret</option>
+                            <option value="fa-microchip" {{ $category->icon == 'fa-microchip' ? 'selected' : '' }} data-icon="fa-microchip">Micro-puce</option>
+                            <option value="fa-terminal" {{ $category->icon == 'fa-terminal' ? 'selected' : '' }} data-icon="fa-terminal">Terminal</option>
+                            <option value="fa-keyboard" {{ $category->icon == 'fa-keyboard' ? 'selected' : '' }} data-icon="fa-keyboard">Clavier</option>
+                            <option value="fa-laptop-code" {{ $category->icon == 'fa-laptop-code' ? 'selected' : '' }} data-icon="fa-laptop-code">Ordinateur Portable</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                  <input type="submit" class="btn btn-block btn-primary" value="Modifier">
+                  <a href="{{ route('category.index') }}" class="btn btn-block btn-secondary">Annuler</a>
+                </form>
+              </div>
               <!-- END timeline item -->
               <div class="{{ $activeTab === 'flux' ? 'active ' : '' }} tab-pane" id="flux">
                 <button type="button" class="btn btn-block btn-info" data-toggle="modal" data-target="#modal-default">
@@ -167,7 +156,7 @@
                     <tbody>
                       @foreach ($fluxes as $flux)
                       <form action="{{route('flux.update', $flux->id)}}" method="POST" style="display: inline-block;">
-                        @csrf @method('PUT') 
+                        @csrf @method('PUT')                 
                         <input type="hidden" name="category_id" value="{{$category->id}}">
                         <tr>
                           <td>
@@ -203,11 +192,11 @@
     </div>
     <!-- /.row -->
   </div><!-- /.container-fluid -->
-</section>  
+</section>
 
 {{-- Début Modale Création Flux --}}
-    <div class="modal fade" id="modal-default">
-        <div class="modal-dialog">
+  <div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Création d'un nouveau flux</h4>
@@ -345,5 +334,20 @@
           ModaleFlux.setAttribute('action', url); // Set the form action attribute with the obtained URL
       });
   });
+</script>
+<script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      templateResult: formatState
+    });
+  });
+
+  function formatState(state) {
+    if (!state.id) {
+      return state.text;
+    }
+    var icon = $(state.element).data('icon');
+    return $('<span><i class="fas ' + icon + '"></i> ' + state.text + '</span>');
+  }
 </script>
 @endsection
