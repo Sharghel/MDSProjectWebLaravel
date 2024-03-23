@@ -77,6 +77,5 @@ class CategoryController extends Controller
         }
 
         return view('categories.show', compact('categories', 'category', 'items'));
-        return redirect()->back();
     }
 }
