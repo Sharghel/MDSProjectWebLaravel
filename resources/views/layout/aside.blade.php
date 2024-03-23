@@ -31,31 +31,34 @@
           </li>
           <li class="nav-header">CATEGORIES</li>
           @foreach($categories as $category)
-            <li class="nav-item menu-close">
-              <a href="#" class="nav-link ">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  {{ $category->name }}
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                @if($category->children)
-                  @foreach($category->children as $child)
-                  <li class="nav-item">
-                    <a href="{{route('category.show', $child->id)}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>{{ $child->name }}</p>
-                    </a>
-                  </li>
-                  @endforeach
-                @endif
-              </ul>
-            </li>
+          <li class="nav-item menu-close">
+            <a href="#" class="nav-link ">
+              <i class="fas fa-circle nav-icon"></i>
+              {{-- <i class="nav-icon fas fa-tachometer-alt"></i> --}}
+              <p>
+                {{ $category->name }}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @if($category->children)
+              @foreach($category->children as $child)
+              <li class="nav-item">
+                <a href="{{route('category.show', $child->id)}}" class="nav-link">
+                  {{-- ICI --}}
+                  <i class="far fa-circle nav-icon"></i>
+                  {{-- ICI --}}
+                  <p>{{ $child->name }}</p>
+                </a>
+              </li>
+              @endforeach
+              @endif
+            </ul>
+          </li>
           @endforeach
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
+    <!-- /.sidebar -->  
   </aside>

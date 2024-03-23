@@ -14,16 +14,12 @@
 <section class="content">
     <!-- Default box -->
     <div class="card">
-        <a type="button" class="btn btn-block btn-primary" href="{{ route('category.create') }}">Ajouter une catégorie</a>
-      <div class="card-header">
-        <h3 class="card-title">Projects</h3>
-
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-            <i class="fas fa-minus"></i>
-          </button>
+        <button type="button" data-toggle="modal" data-target="#modal-creation" class="btn btn-block btn-primary">Ajouter une catégorie</button>
+        <div class="card-header">
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse"><i class="fas fa-minus"></i></button>
+            </div>
         </div>
-      </div>
       <div class="card-body p-0">
         <table class="table table-striped projects">
             <thead>
@@ -38,7 +34,7 @@
                         Nom de la catégorie
                     </th>
                     <th style="width: 30%" class="text-center">
-                        Nombre de sous-dossiers
+                        Nom des sous-catégorie
                     </th>
                     {{-- <th style="width: 15%" class="text-center">
                         Actions
@@ -62,8 +58,7 @@
                             <button type="submit" class="btn btn-success btn-sm btn_confirm" hidden><i class="fas fa-check"></i></button>
                         </form>
                         <a class="btn btn-danger btn-sm btn_cancel" hidden><i class="fas fa-times"></i></a>
-                        <form action="{{route('category.edit', $category->id)}}" method="POST" style="display: inline-block;">@csrf @method('GET')<button type="submit" class="btn btn-info btn-sm btn_plus" hidden><i class="fa fa-plus"></i></button></form>
-                        <form action="{{route('category.destroy', $category->id)}}" method="POST" style="display: inline-block;">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm btn_delete" hidden><i class="fas fa-trash"></i></button></form>
+                        <button type="button" data-toggle="modal" data-target="#modal-danger-parent" data-url="{{route('category.destroy', $category->id)}}" hidden class="btn btn-danger btn-sm btn_delete"><i class="fas fa-trash"></i></button>
                     </td>
                     <td>
                         @foreach ($category->children as $child)
@@ -76,7 +71,7 @@
                             </form>
                             <a class="btn btn-danger btn-sm btn_cancelChild" hidden><i class="fas fa-times"></i></a>
                             <form action="{{route('category.edit', $child->id)}}" method="POST" style="display: inline-block;">@csrf @method('GET')<button type="submit" class="btn btn-info btn-sm btn_plusChild" hidden><i class="fa fa-plus"></i></button></form>
-                            <form action="{{route('category.destroy', $child->id)}}" method="POST" style="display: inline-block;">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm btn_deleteChild" hidden><i class="fas fa-trash"></i></button></form>
+                            <button type="button" data-toggle="modal" data-target="#modal-danger-child" data-url="{{route('category.destroy', $child->id)}}" hidden class="btn btn-danger btn-sm btn_deleteChild"><i class="fas fa-trash"></i></button>
                         </div>
                         @endforeach
                     </td>
@@ -84,11 +79,92 @@
                 @endforeach
             </tbody>
         </table>
-      </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.card -->
-  </section>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+</section>
+
+{{-- Début Modale suppression Parent--}}
+    <div class="modal fade" id="modal-danger-parent">
+        <div class="modal-dialog">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h4 class="modal-title">Supprimer la catégorie parent</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Êtes-vous certains de vouloir supprimer cette catégorie ? Si vous supprimez une catégorie parent, cela supprimera aussi les catégories enfants.
+                    </p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Annuler</button>
+                    <form action="" id="ModaleDeleteParent" method="POST" style="display: inline-block;">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm">Confirmer</button></form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{-- Fin Modale suppression Parent --}}
+{{-- Début Modale suppression Enfant--}}
+    <div class="modal fade" id="modal-danger-child">
+        <div class="modal-dialog">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h4 class="modal-title">Supprimer la catégorie enfant</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Êtes-vous certains de vouloir supprimer cette catégorie ? Si vous supprimez cette catégoie tout les flux seront perdu.
+                    </p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Annuler</button>
+                    <form action="" id="ModaleDeleteChild" method="POST" style="display: inline-block;">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm">Confirmer</button></form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{-- Fin Modale suppression Enfant --}}
+{{-- Début Modale Création --}}
+    <div class="modal fade" id="modal-creation">
+        <div class="modal-dialog" role="creation">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nom de la catégorie</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('category.store') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Nom de la catégorie</label>
+                            <input name="name" type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="parent-category" class="col-form-label">Catégorie parent</label>
+                            <select name="parent_id" id="parent-category" class="form-control">
+                                <option value="">Aucun parent</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Créer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{-- Fin Modale Création --}}
 @endsection
 @section('scripts')
 <script>    
@@ -115,8 +191,8 @@
                 element.hidden = true;
                 Confirm[index].hidden = false;
                 Cancel[index].hidden = false;
-                Edit[index].hidden = false;
                 Delete[index].hidden = false;
+                Edit[index].hidden = false;
             });
         });
 
@@ -128,8 +204,8 @@
                 Modif[index].hidden = false;
                 Confirm[index].hidden = true;
                 element.hidden = true;
-                Edit[index].hidden = true;
                 Delete[index].hidden = true;
+                Edit[index].hidden = true;
                 })
             });
         }
@@ -139,5 +215,21 @@
     handleCategoryEdit(ModifParents, TextParents, ConfirmParents, CancelParents, EditParents, DeleteParents, OriginalTextParents);
     handleCategoryEdit(ModifChildren, TextChildren, ConfirmChildren, CancelChildren, EditChildren, DeleteChildren, OriginalTextChildren);
 
+    const ModaleParent = document.querySelector('#ModaleDeleteParent');
+    const ModaleChild = document.querySelector('#ModaleDeleteChild');
+
+    DeleteParents.forEach((DeleteParent, index) => {
+        DeleteParent.addEventListener("click", function(event) {
+            const url = this.getAttribute('data-url'); // Get the data-url attribute value
+            ModaleParent.setAttribute('action', url); // Set the form action attribute with the obtained URL
+        });
+    });
+
+    DeleteChildren.forEach((DeleteChild, index) => {
+        DeleteChild.addEventListener("click", function(event) {
+            const url = this.getAttribute('data-url'); // Get the data-url attribute value
+            ModaleChild.setAttribute('action', url); // Set the form action attribute with the obtained URL
+        });
+    });
 </script>
 @endsection

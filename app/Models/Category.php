@@ -12,6 +12,7 @@ class Category extends Model
     protected $fillable = [
         'name',
         'parent_id',
+        'user_id',
     ];
 
     public function children()
@@ -22,5 +23,15 @@ class Category extends Model
     public function parent()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function flux()
+    {
+        return $this->hasMany(Flux::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

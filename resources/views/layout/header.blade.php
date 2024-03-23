@@ -10,7 +10,7 @@
             <a href="{{route('dashboard')}}" class="nav-link">Dashboard</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{route('category.index')}}" class="nav-link"><i class="fas fa-wrench"></i> Settings </a>
+            <a href="{{route('category.index')}}" class="nav-link"><i class="fas fa-wrench"></i> Catégories </a>
         </li>
     </ul>
 
@@ -20,6 +20,14 @@
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>
             </a>
+        </li>
+        <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="nav-link" style="border: none; background: none; cursor: pointer;">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </form>
         </li>
     </ul>
 </nav>

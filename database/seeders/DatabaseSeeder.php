@@ -15,17 +15,33 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        User::factory(10)->create();
-        Category::factory(5)->create();
-        for($i = 0; $i < 20; $i++){
+        User::factory()->create([
+            'name' => 'Tata tata',
+            'email' => 'tata@tata.fr',
+        ]);
+        User::factory()->create([
+            'name' => 'Toto toto',
+            'email' => 'toto@toto.fr',
+        ]);
+
+        Category::factory(2)->create([
+            'user_id' => 1,
+        ]);
+        for($i = 0; $i < 5; $i++){
             Category::factory(1)->create([
-                'parent_id' => random_int(1, 5),
+                'parent_id' => random_int(1, 2),
+                'user_id' => 1,
+            ]);
+        }
+        Category::factory(2)->create([
+            'user_id' => 2,
+        ]);
+        for($i = 0; $i < 5; $i++){
+            Category::factory(1)->create([
+                'parent_id' => random_int(8, 9),
+                'user_id' => 2,
             ]);
         }
 
-        User::factory()->create([
-            'name' => 'Toto tata',
-            'email' => 'toto@toto.fr',
-        ]);
     }
 }

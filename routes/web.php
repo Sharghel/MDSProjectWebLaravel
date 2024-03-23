@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FluxController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/categories/store', [CategoryController::class, 'store'])->name('category.store'); // enregistre une catégorie
     Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit'); // affiche le formulaire d'édition
     Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->name('category.update'); // modifie une catégorie
-    Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('category.destroy'); // supprime une catégorie 
+    Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('category.destroy'); // supprime une catégorie
+    
+    Route::post('/flux/store', [FluxController::class, 'store'])->name('flux.store'); // enregistre une catégorie
+    Route::put('/flux/{id}/update', [FluxController::class, 'update'])->name('flux.update'); // modifie une catégorie
+    Route::delete('/flux/{id}/destroy', [FluxController::class, 'destroy'])->name('flux.destroy'); // supprime une catégorie
+    
 });
 
 Route::get('/settings', function () {
