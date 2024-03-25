@@ -1,4 +1,7 @@
 @extends('layout.main')
+@php
+  $colors = ['Primary', 'Secondary', 'Info', 'Success', 'Warning', 'Danger'];
+@endphp
 @section('css')
 <style>
   input[disabled] {
@@ -139,16 +142,16 @@
                   <table class="table table-striped projects">
                     <thead>
                       <tr>
-                        <th style="width: 1%">
-                          #
+                        <th style="width: 15%">
+                          Couleur
                         </th>
-                        <th style="width: 20%" class="text-center">
+                        <th style="width: 15%" class="text-center">
                           Nom du flux
                         </th>
                         <th style="width: 55%">
                           Lien du flux
                         </th>
-                        <th style="width: 20%">
+                        <th style="width: 15%">
                           Actions
                         </th>
                       </tr>
@@ -160,7 +163,16 @@
                         <input type="hidden" name="category_id" value="{{$category->id}}">
                         <tr>
                           <td>
-                            <a>{{ $flux->id }}</a>
+                            {{-- COLOR : Primary, Secondary, Info, Success, Warning, Danger
+                              COLOR UNUSABLE : Indigo, Lightblue, Navy, Purple, Fuchsia, Pink, Maroon, Orange, Lime, Teal, Olive --}}
+                            <select name="color" id="flux-color"class="form-control" disabled>
+                              @foreach ($colors as $color)
+                                @php
+                                  $colorLower = strtolower($color); 
+                                @endphp
+                                <option value="{{ $colorLower }}" class="bg-{{ strtolower($color) }}" {{$flux->color == $colorLower ? 'selected' : '' }}>{{ $color }}</option>
+                              @endforeach
+                            </select>
                           </td>
                           <td>
                             <input type="text" class="flux-name form-control" name='name' value="{{$flux->name}}" disabled>
@@ -197,39 +209,48 @@
 {{-- Début Modale Création Flux --}}
   <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Création d'un nouveau flux</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('flux.store') }}" method="POST">
-                      @csrf
-                      <input type="hidden" name="category_id" value="{{$category->id}}">
-                      <input type="hidden" name="redirection" value="edit">
-                      
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Nom du flux</label>
-                        <input name="name" type="text" class="form-control" id="recipient-name">
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-link" class="col-form-label">Url du flux</label>
-                        <input name="link" type="text" class="form-control" id="recipient-link">
-                      </div>
-
-                      <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                      </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Création d'un nouveau flux</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <!-- /.modal-dialog -->
+        <div class="modal-body">
+          <form action="{{ route('flux.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="category_id" value="{{$category->id}}">
+            <input type="hidden" name="redirection" value="edit">
+                      
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Nom du flux</label>
+              <input name="name" type="text" class="form-control" id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="recipient-link" class="col-form-label">Url du flux</label>
+              <input name="link" type="text" class="form-control" id="recipient-link">
+            </div>
+            <div class="form-group">
+              <label for="recipient-color" class="col-form-label">Couleur du flux</label>
+              <select name="color" id="recipient-color" class="form-control">
+                @foreach ($colors as $color)
+                  @php $colorLower = strtolower($color); @endphp
+                  <option value="{{ $colorLower }}" class="bg-{{ strtolower($color) }}">{{ $color }}</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
     </div>
+  <!-- /.modal-dialog -->
+  </div>
 {{-- Fin Modale Création Flux --}}
 {{-- Début Modale suppression Catégorie--}}
   <div class="modal fade" id="modal-danger-category">
@@ -287,23 +308,27 @@
   const ModifFluxesNames = document.querySelectorAll('.edit-flux-btn');
   const TextFluxesNames = document.querySelectorAll('.flux-name');
   const TextFluxesLinks = document.querySelectorAll('.flux-link');
+  const SelectFluxesColors = document.querySelectorAll('#flux-color');
   const ConfirmFluxes = document.querySelectorAll('.btn_confirm');
   const CancelFluxes = document.querySelectorAll('.btn_cancel');
   const DeleteFluxes = document.querySelectorAll('.btn_delete');
   
   const OriginalTextFluxesNames = [];
   const OriginalTextFluxesLinks = [];
+  const OriginalSelectFluxesColors = [];
   
   const ModaleFlux = document.querySelector('#ModaleDeleteFlux');
   
-  function handleCategoryEdit(Modif, Text1, Text2, Confirm, Cancel, Delete, OriginalText1, OriginalText2) {
+  function handleCategoryEdit(Modif, Text1, Text2, Select1, Confirm, Cancel, Delete, OriginalText1, OriginalText2, OriginalSelect1) {
     Modif.forEach((element, index) => {
       element.addEventListener("click", function(event){
         event.preventDefault();
         OriginalText1[index] = Text1[index].value
         OriginalText2[index] = Text2[index].value
+        OriginalSelect1[index] = Select1[index].value
         Text1[index].disabled = false;
         Text2[index].disabled = false;
+        Select1[index].disabled = false;
         element.hidden = true;
         Confirm[index].hidden = false;
         Cancel[index].hidden = false;
@@ -316,8 +341,10 @@
         event.preventDefault();
         Text1[index].value = OriginalText1[index]; // Reset text to original value
         Text2[index].value = OriginalText2[index];
+        Select1[index].value = OriginalSelect1[index]; 
         Text1[index].disabled = true;
         Text2[index].disabled = true;
+        Select1[index].disabled = true;
         Modif[index].hidden = false;
         Confirm[index].hidden = true;
         element.hidden = true;
@@ -326,7 +353,7 @@
     });
   }
 
-  handleCategoryEdit(ModifFluxesNames, TextFluxesNames, TextFluxesLinks, ConfirmFluxes, CancelFluxes, DeleteFluxes, OriginalTextFluxesNames, OriginalTextFluxesLinks);
+  handleCategoryEdit(ModifFluxesNames, TextFluxesNames, TextFluxesLinks, SelectFluxesColors, ConfirmFluxes, CancelFluxes, DeleteFluxes, OriginalTextFluxesNames, OriginalTextFluxesLinks, OriginalSelectFluxesColors);
 
   DeleteFluxes.forEach((DeleteFlux, index) => {
     DeleteFlux.addEventListener("click", function(event) {

@@ -1,4 +1,7 @@
 @extends('layout.main')
+@php
+  $colors = ['Primary', 'Secondary', 'Info', 'Success', 'Warning', 'Danger'];
+@endphp
 @section('css')
 
 @endsection
@@ -8,7 +11,13 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>{{$category->name}}</h1>
+                <h1>
+                    {{$category->name}}
+                    <form action="{{route('category.edit', $category->id)}}" method="POST" style="display: inline-block;">@csrf @method('GET')
+                        <input type="hidden" name="redirection" value="edit">
+                        <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></button>
+                    </form>
+                </h1>
             </div>
           </div>
         </div>
@@ -22,9 +31,9 @@
                 <div id="activity">
                     @if (empty($items))
                         <p>Aucun flux RSS trouvé pour cette catégorie.</p>
-                    @else    
+                    @else
                         @foreach ($items as $item)
-                            <div class="callout callout-info">
+                            <div class="callout callout-{{ $item->color }}">
                                 @php
                                     $enclosure = $item->get_enclosure(0); // Récupère la première enclosure
                                     $image_url = null;
@@ -73,6 +82,15 @@
                             <label for="recipient-link" class="col-form-label">Url du flux</label>
                             <input name="link" type="text" class="form-control" id="recipient-link">
                         </div>
+                        <div class="form-group">
+                            <label for="recipient-color" class="col-form-label">Couleur du flux</label>
+                            <select name="color" id="recipient-color" class="form-control">
+                              @foreach ($colors as $color)
+                                @php $colorLower = strtolower($color); @endphp
+                                <option value="{{ $colorLower }}" class="bg-{{ strtolower($color) }}">{{ $color }}</option>
+                              @endforeach
+                            </select>
+                          </div>
 
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>

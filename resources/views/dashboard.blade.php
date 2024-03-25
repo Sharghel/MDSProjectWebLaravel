@@ -4,7 +4,6 @@
 @endsection
 @section('main')
 
-
 <div class="col-md-12">
   <section class="content-header">
       <div class="container-fluid">
@@ -26,7 +25,7 @@
                       <p>Aucun flux RSS trouvé parmis toutes les catégories.</p>
                   @else    
                       @foreach ($items as $item)
-                          <div class="callout callout-info">
+                          <div class="callout callout-{{$item->color}}">
                               @php
                                   $enclosure = $item->get_enclosure(0); // Récupère la première enclosure
                                   $image_url = null;

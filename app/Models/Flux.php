@@ -13,7 +13,8 @@ class Flux extends Model
     protected $fillable = [
         'name',
         'link',
-        'category_id'
+        'color',
+        'category_id',
     ];
 
     public function category()
