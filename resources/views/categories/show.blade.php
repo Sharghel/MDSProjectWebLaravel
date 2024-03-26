@@ -6,6 +6,7 @@
 
 @endsection
 @section('main')
+
 <div class="col-md-12">
     <section class="content-header">
         <div class="container-fluid">

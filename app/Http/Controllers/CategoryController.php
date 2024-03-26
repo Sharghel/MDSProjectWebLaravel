@@ -16,13 +16,13 @@ class CategoryController extends Controller
         return view('categories.index', compact('categories'));
     }
     
-    public function create()
-    {
-        $categories = Category::where('parent_id', null)->with('children')->where('user_id', auth()->user()->id)->get();
+    // public function create()
+    // {
+    //     $categories = Category::where('parent_id', null)->with('children')->where('user_id', auth()->user()->id)->get();
         
-        $parent_categories = Category::where('parent_id', null)->get();
-        return view('categories.create', compact('categories', 'parent_categories'));
-    }
+    //     $parent_categories = Category::where('parent_id', null)->get();
+    //     return view('categories.create', compact('categories', 'parent_categories'));
+    // }
     
     public function store(Request $request)
     {
@@ -67,6 +67,7 @@ class CategoryController extends Controller
         $category = Category::with("parent")->where("id", $id)->first();
 
         $flux_rss = Flux::where('category_id', $category->id)->get();
+        dd($flux_rss);
         $items = [];
         foreach ($flux_rss as $flux) {
             // $flux->color
@@ -81,7 +82,6 @@ class CategoryController extends Controller
                 $items[] = $item;
             }
         }
-
         return view('categories.show', compact('categories', 'category', 'items'));
     }
 }

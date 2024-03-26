@@ -14,9 +14,6 @@
         </div>
       </div>
   </section>
-  {{-- <button type="button" class="btn btn-block btn-info" data-toggle="modal" data-target="#modal-default">
-      Ajouter un flux
-  </button> --}}
   <div class="card">
       <div class="card-body">
           <div class="tab-content">
@@ -33,7 +30,6 @@
                                       $image_url = $enclosure->get_link();
                                   }
                               @endphp
-          
                               @if ($image_url)
                                   <img src="{{ $image_url }}" alt="Image">
                               @else

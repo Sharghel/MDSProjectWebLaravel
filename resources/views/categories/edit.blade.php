@@ -15,9 +15,10 @@
     line-height: 15px;
     height: 40px;
   }
-  </style>
+</style>
 @endsection
 @section('main')
+
 <section class="content">
   <div class="container-fluid">
     <div class="row">
@@ -357,8 +358,8 @@
 
   DeleteFluxes.forEach((DeleteFlux, index) => {
     DeleteFlux.addEventListener("click", function(event) {
-          const url = this.getAttribute('data-url'); // Get the data-url attribute value
-          ModaleFlux.setAttribute('action', url); // Set the form action attribute with the obtained URL
+      const url = this.getAttribute('data-url'); // Get the data-url attribute value
+      ModaleFlux.setAttribute('action', url); // Set the form action attribute with the obtained URL
       });
   });
 </script>

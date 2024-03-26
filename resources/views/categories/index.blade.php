@@ -11,6 +11,7 @@
 </style>
 @endsection
 @section('main')
+
 <section class="content">
     <!-- Default box -->
     <div class="card">
@@ -20,85 +21,84 @@
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse"><i class="fas fa-minus"></i></button>
             </div>
         </div>
-      <div class="card-body p-0">
-        <table class="table table-striped projects">
-            <thead>
-                <tr>
-                    <th style="width: 1%">
-                        #
-                    </th>
-                    <th style="width: 5%" class="text-center">
-                        Enable
-                    </th>
-                    <th style="width: 30%">
-                        Nom de la catégorie
-                    </th>
-                    <th style="width: 30%" class="text-center">
-                        Nom des sous-catégorie
-                    </th>
-                    {{-- <th style="width: 15%" class="text-center">
-                        Actions
-                    </th> --}}
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $category)
-                <tr>
-                    <td>
-                        <a>{{ $category->id }}</a>
-                    </td>
-                    <td class="project-state">
-                        <span class="badge badge-success">Enabled</span>
-                    </td>
-                    <td>
-                        <form action="{{route('category.update', $category->id)}}" method="POST" style="display: inline-block;">
-                            @csrf @method('PUT') 
-                            <input type="text" class="category-name" name='name' value="{{$category->name}}" disabled>
-                            <a class="btn btn-info btn-sm edit-category-btn"><i class="fas fa-pencil-alt"></i></a>
-                            <button type="submit" class="btn btn-success btn-sm btn_confirm" hidden><i class="fas fa-check"></i></button>
-                            <a class="btn btn-danger btn-sm btn_cancel" hidden><i class="fas fa-times"></i></a>
-                            <select name="icon" id="icon-category" class="select2 category-icon" style="width: 150px;" data-minimum-results-for-search="-1" hidden>
-                                <option value="">Aucun icône</option>
-                                <option value="fa-file" {{ $category->icon == 'fa-file' ? 'selected' : '' }} data-icon="fa-file">File</option>
-                                <option value="fa-filter" {{ $category->icon == 'fa-filter' ? 'selected' : '' }} data-icon="fa-filter">Filter</option>
-                                <option value="fa-folder" {{ $category->icon == 'fa-folder' ? 'selected' : '' }} data-icon="fa-folder">Dossier</option>
-                                <option value="fa-folder-open" {{ $category->icon == 'fa-folder-open' ? 'selected' : '' }} data-icon="fa-folder-open">Dossier Ouvert</option>
-                                <option value="fa-code" {{ $category->icon == 'fa-code' ? 'selected' : '' }} data-icon="fa-code">Code</option>
-                                <option value="fa-bug" {{ $category->icon == 'fa-bug' ? 'selected' : '' }} data-icon="fa-bug">Bug</option>
-                                <option value="fa-user-secret" {{ $category->icon == 'fa-user-secret' ? 'selected' : '' }} data-icon="fa-user-secret">Utilisateur Secret</option>
-                                <option value="fa-microchip" {{ $category->icon == 'fa-microchip' ? 'selected' : '' }} data-icon="fa-microchip">Micro-puce</option>
-                                <option value="fa-terminal" {{ $category->icon == 'fa-terminal' ? 'selected' : '' }} data-icon="fa-terminal">Terminal</option>
-                                <option value="fa-keyboard" {{ $category->icon == 'fa-keyboard' ? 'selected' : '' }} data-icon="fa-keyboard">Clavier</option>
-                                <option value="fa-laptop-code" {{ $category->icon == 'fa-laptop-code' ? 'selected' : '' }} data-icon="fa-laptop-code">Ordinateur Portable</option>
-                            </select>
-                        </form>
-                        <button type="button" data-toggle="modal" data-target="#modal-danger-parent" data-url="{{route('category.destroy', $category->id)}}" hidden class="btn btn-danger btn-sm btn_delete"><i class="fas fa-trash"></i></button>
-                    </td>
-                    <td>
-                        @foreach ($category->children as $child)
-                        <div>    
-                            <form action="{{route('category.update', $child->id)}}" method="POST" style="display: inline-block;">
+        <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <th style="width: 1%">
+                            #
+                        </th>
+                        <th style="width: 5%" class="text-center">
+                            Enable
+                        </th>
+                        <th style="width: 30%">
+                            Nom de la catégorie
+                        </th>
+                        <th style="width: 30%" class="text-center">
+                            Nom des sous-catégorie
+                        </th>
+                        {{-- <th style="width: 15%" class="text-center">
+                            Actions
+                        </th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($categories as $category)
+                    <tr>
+                        <td>
+                            <a>{{ $category->id }}</a>
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Enabled</span>
+                        </td>
+                        <td>
+                            <form action="{{route('category.update', $category->id)}}" method="POST" style="display: inline-block;">
                                 @csrf @method('PUT') 
-                                <input type="text" class="category-nameChild" name='name' value="{{$child->name}}" disabled>
-                                <a class="btn btn-info btn-sm edit-category-btnChild"><i class="fas fa-pencil-alt"></i></a>
-                                <button type="submit" class="btn btn-success btn-sm btn_confirmChild" hidden><i class="fas fa-check"></i></button>
-                                <a class="btn btn-danger btn-sm btn_cancelChild" hidden><i class="fas fa-times"></i></a>
+                                <input type="text" class="category-name" name='name' value="{{$category->name}}" disabled>
+                                <a class="btn btn-info btn-sm edit-category-btn"><i class="fas fa-pencil-alt"></i></a>
+                                <button type="submit" class="btn btn-success btn-sm btn_confirm" hidden><i class="fas fa-check"></i></button>
+                                <a class="btn btn-danger btn-sm btn_cancel" hidden><i class="fas fa-times"></i></a>
+                                <select name="icon" id="icon-category" class="select2 category-icon" style="width: 150px;" data-minimum-results-for-search="-1" hidden>
+                                    <option value="">Aucun icône</option>
+                                    <option value="fa-file" {{ $category->icon == 'fa-file' ? 'selected' : '' }} data-icon="fa-file">File</option>
+                                    <option value="fa-filter" {{ $category->icon == 'fa-filter' ? 'selected' : '' }} data-icon="fa-filter">Filter</option>
+                                    <option value="fa-folder" {{ $category->icon == 'fa-folder' ? 'selected' : '' }} data-icon="fa-folder">Dossier</option>
+                                    <option value="fa-folder-open" {{ $category->icon == 'fa-folder-open' ? 'selected' : '' }} data-icon="fa-folder-open">Dossier Ouvert</option>
+                                    <option value="fa-code" {{ $category->icon == 'fa-code' ? 'selected' : '' }} data-icon="fa-code">Code</option>
+                                    <option value="fa-bug" {{ $category->icon == 'fa-bug' ? 'selected' : '' }} data-icon="fa-bug">Bug</option>
+                                    <option value="fa-user-secret" {{ $category->icon == 'fa-user-secret' ? 'selected' : '' }} data-icon="fa-user-secret">Utilisateur Secret</option>
+                                    <option value="fa-microchip" {{ $category->icon == 'fa-microchip' ? 'selected' : '' }} data-icon="fa-microchip">Micro-puce</option>
+                                    <option value="fa-terminal" {{ $category->icon == 'fa-terminal' ? 'selected' : '' }} data-icon="fa-terminal">Terminal</option>
+                                    <option value="fa-keyboard" {{ $category->icon == 'fa-keyboard' ? 'selected' : '' }} data-icon="fa-keyboard">Clavier</option>
+                                    <option value="fa-laptop-code" {{ $category->icon == 'fa-laptop-code' ? 'selected' : '' }} data-icon="fa-laptop-code">Ordinateur Portable</option>
+                                </select>
                             </form>
-                            <form action="{{route('category.edit', $child->id)}}" method="POST" style="display: inline-block;">@csrf @method('GET')<button type="submit" class="btn btn-info btn-sm btn_plusChild" hidden><i class="fa fa-plus"></i></button></form>
-                            <button type="button" data-toggle="modal" data-target="#modal-danger-child" data-url="{{route('category.destroy', $child->id)}}" hidden class="btn btn-danger btn-sm btn_deleteChild"><i class="fas fa-trash"></i></button>
-                        </div>
-                        @endforeach
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                            <button type="button" data-toggle="modal" data-target="#modal-danger-parent" data-url="{{route('category.destroy', $category->id)}}" hidden class="btn btn-danger btn-sm btn_delete"><i class="fas fa-trash"></i></button>
+                        </td>
+                        <td>
+                            @foreach ($category->children as $child)
+                            <div>    
+                                <form action="{{route('category.update', $child->id)}}" method="POST" style="display: inline-block;">
+                                    @csrf @method('PUT') 
+                                    <input type="text" class="category-nameChild" name='name' value="{{$child->name}}" disabled>
+                                    <a class="btn btn-info btn-sm edit-category-btnChild"><i class="fas fa-pencil-alt"></i></a>
+                                    <button type="submit" class="btn btn-success btn-sm btn_confirmChild" hidden><i class="fas fa-check"></i></button>
+                                    <a class="btn btn-danger btn-sm btn_cancelChild" hidden><i class="fas fa-times"></i></a>
+                                </form>
+                                <form action="{{route('category.edit', $child->id)}}" method="POST" style="display: inline-block;">@csrf @method('GET')<button type="submit" class="btn btn-info btn-sm btn_plusChild" hidden><i class="fa fa-plus"></i></button></form>
+                                <button type="button" data-toggle="modal" data-target="#modal-danger-child" data-url="{{route('category.destroy', $child->id)}}" hidden class="btn btn-danger btn-sm btn_deleteChild"><i class="fas fa-trash"></i></button>
+                            </div>
+                            @endforeach
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
     </div>
-    <!-- /.card-body -->
-</div>
-<!-- /.card -->
+    <!-- /.card -->
 </section>
-
 
 {{-- Début Modale suppression Parent--}}
     <div class="modal fade" id="modal-danger-parent">
@@ -123,7 +123,6 @@
         </div>
     </div>
 {{-- Fin Modale suppression Parent --}}
-
 {{-- Début Modale suppression Enfant--}}
     <div class="modal fade" id="modal-danger-child">
         <div class="modal-dialog">
@@ -147,7 +146,6 @@
         </div>
     </div>
 {{-- Fin Modale suppression Enfant --}}
-
 {{-- Début Modale Création --}}
     <div class="modal fade" id="modal-creation">
         <div class="modal-dialog" role="creation">
