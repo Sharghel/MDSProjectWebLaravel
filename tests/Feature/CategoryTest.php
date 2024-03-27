@@ -59,8 +59,8 @@ class CategoryTest extends TestCase
         $category = Category::factory()->create();
         
         $response = $this
-        ->actingAs($user)
-        ->get('/categories/'.$category->id.'/show/');
+            ->actingAs($user)
+            ->get('/categories/'.$category->id.'/show/');
         
         $response->assertOk();
     }

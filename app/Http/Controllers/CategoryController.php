@@ -10,12 +10,6 @@ use SimplePie;
 
 class CategoryController extends Controller
 {
-    public function index() {
-        $categories = Category::where('parent_id', null)->with('children')->where('user_id', auth()->user()->id)->get();
-        
-        return view('categories.index', compact('categories'));
-    }
-    
     // public function create()
     // {
     //     $categories = Category::where('parent_id', null)->with('children')->where('user_id', auth()->user()->id)->get();
@@ -23,6 +17,12 @@ class CategoryController extends Controller
     //     $parent_categories = Category::where('parent_id', null)->get();
     //     return view('categories.create', compact('categories', 'parent_categories'));
     // }
+
+    public function index() {
+        $categories = Category::where('parent_id', null)->with('children')->where('user_id', auth()->user()->id)->get();
+        
+        return view('categories.index', compact('categories'));
+    }
     
     public function store(Request $request)
     {
@@ -67,7 +67,6 @@ class CategoryController extends Controller
         $category = Category::with("parent")->where("id", $id)->first();
 
         $flux_rss = Flux::where('category_id', $category->id)->get();
-        dd($flux_rss);
         $items = [];
         foreach ($flux_rss as $flux) {
             // $flux->color
@@ -75,7 +74,8 @@ class CategoryController extends Controller
             $feed->set_feed_url($flux->link); // Utilisez l'URL du flux RSS associé
             $feed->enable_cache(false); // Désactiver le cache pour éviter les problèmes de mise en cache
             $feed->init();
-
+            
+            dd($feed);
             // $items = array_merge($items, $feed->get_items()); // Ajoutez les éléments de flux au tableau $items
             foreach ($feed->get_items() as $item) {
                 $item->color = $flux->color; // Assuming $flux->color is a valid property
