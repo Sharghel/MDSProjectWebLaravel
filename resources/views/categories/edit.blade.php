@@ -1,6 +1,7 @@
 @extends('layout.main')
 @php
   $colors = ['Primary', 'Secondary', 'Info', 'Success', 'Warning', 'Danger'];
+  $icons = ['fa-file', 'fa-filter', 'fa-folder', 'fa-folder-open', 'fa-code', 'fa-bug', 'fa-user-secret', 'fa-microchip', 'fa-terminal', 'fa-keyboard', 'fa-laptop-code'];
 @endphp
 @section('css')
 <style>
@@ -112,7 +113,7 @@
                       <div class="timeline-item">
                         <h3 class="timeline-header">Changer l'icône : </h3>
                         <div class="timeline-body">
-                          <select name="icon" class="form-control select2" style="width: 100%;" data-minimum-results-for-search="-1">
+                          {{-- <select name="icon" class="form-control select2" style="width: 100%;" data-minimum-results-for-search="-1">
                             <option value="">Aucun icône</option>
                             <option value="fa-file" {{ $category->icon == 'fa-file' ? 'selected' : '' }} data-icon="fa-file">File</option>
                             <option value="fa-filter" {{ $category->icon == 'fa-filter' ? 'selected' : '' }} data-icon="fa-filter">Filter</option>
@@ -125,6 +126,12 @@
                             <option value="fa-terminal" {{ $category->icon == 'fa-terminal' ? 'selected' : '' }} data-icon="fa-terminal">Terminal</option>
                             <option value="fa-keyboard" {{ $category->icon == 'fa-keyboard' ? 'selected' : '' }} data-icon="fa-keyboard">Clavier</option>
                             <option value="fa-laptop-code" {{ $category->icon == 'fa-laptop-code' ? 'selected' : '' }} data-icon="fa-laptop-code">Ordinateur Portable</option>
+                          </select> --}}
+                          <select name="icon" id="icon-category" class="form-control select2" style="width: 100%;" data-minimum-results-for-search="-1">
+                            <option value="">Aucun icône</option>
+                            @foreach($icons as $icon)
+                              <option value="{{ $icon }}" {{ $category->icon == $icon ? 'selected' : '' }} data-icon="{{ $icon }}">{{ ucfirst(str_replace('-', ' ', substr($icon, 3))) }}</option>
+                            @endforeach
                           </select>
                         </div>
                       </div>

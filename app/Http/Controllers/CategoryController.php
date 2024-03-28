@@ -18,7 +18,8 @@ class CategoryController extends Controller
     //     return view('categories.create', compact('categories', 'parent_categories'));
     // }
 
-    public function index() {
+    public function index()
+    {
         $categories = Category::where('parent_id', null)->with('children')->where('user_id', auth()->user()->id)->get();
         
         return view('categories.index', compact('categories'));
@@ -75,7 +76,6 @@ class CategoryController extends Controller
             $feed->enable_cache(false); // Désactiver le cache pour éviter les problèmes de mise en cache
             $feed->init();
             
-            dd($feed);
             // $items = array_merge($items, $feed->get_items()); // Ajoutez les éléments de flux au tableau $items
             foreach ($feed->get_items() as $item) {
                 $item->color = $flux->color; // Assuming $flux->color is a valid property

@@ -41,8 +41,7 @@ Route::middleware('auth')->group(function () {
     
     Route::post('/flux/store', [FluxController::class, 'store'])->name('flux.store'); // enregistre une catégorie
     Route::put('/flux/{id}/update', [FluxController::class, 'update'])->name('flux.update'); // modifie une catégorie
-    Route::delete('/flux/{id}/destroy', [FluxController::class, 'destroy'])->name('flux.destroy'); // supprime une catégorie
-    
+    Route::delete('/flux/{id}/destroy', [FluxController::class, 'destroy'])->name('flux.destroy'); // supprime une catégorie 
 });
 
 Route::get('/settings', function () {
@@ -50,4 +49,3 @@ Route::get('/settings', function () {
 })->middleware(['auth', 'verified'])->name('settings');
 
 require __DIR__.'/auth.php';
-

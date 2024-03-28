@@ -8,7 +8,7 @@ use App\Models\Flux;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CategoryTest extends TestCase
+class DashboardTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -52,33 +52,12 @@ class CategoryTest extends TestCase
         ]);
     }
 
-    public function test_access_categories_index()
-    {        
-        $response = $this->actingAs($this->user)->get('/categories');
-
-        $response->assertOk();
-        $response->assertViewIs('categories.index');
-        $response->assertSeeText($this->user->name);
-    }
-
-    public function test_access_categories_show()
-    {   
-        $category = $this->categories->first();
-        $response = $this->actingAs($this->user)->get('/categories/' . $category->id . '/show');
-        
-        $response->assertOk();
-        $response->assertViewIs('categories.show');
-        $response->assertSeeText($category->name);
-    }
-    
-    public function test_access_categories_edit()
+    public function test_access_dashboard_index(): void
     {
-        $category = $this->categories->where('id', 5)->first();
-        dd($this->categories);
-        $response = $this->actingAs($this->user)->get('/categories/' . $category->id . '/edit');
+        $response = $this->actingAs($this->user)->get('/categories');
         
         $response->assertOk();
-        $response->assertViewIs('categories.edit');
-        $response->assertSeeText($category->name);
+        $response->assertViewIs('dashboard');
+
     }
 }
