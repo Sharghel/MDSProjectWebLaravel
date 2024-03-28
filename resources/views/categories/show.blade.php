@@ -1,6 +1,6 @@
 @extends('layout.main')
 @php
-  $colors = ['Primary', 'Secondary', 'Info', 'Success', 'Warning', 'Danger'];
+  $colors = ['Info', 'Success', 'Warning', 'Danger'];
 @endphp
 @section('css')
 
@@ -29,31 +29,7 @@
     <div class="card">
         <div class="card-body">
             <div class="tab-content">
-                <div id="activity">
-                    @if (empty($items))
-                        <p>Aucun flux RSS trouvé pour cette catégorie.</p>
-                    @else
-                        @foreach ($items as $item)
-                            <div class="callout callout-{{ $item->color }}">
-                                @php
-                                    $enclosure = $item->get_enclosure(0); // Récupère la première enclosure
-                                    $image_url = null;
-                                    if ($enclosure && $enclosure->get_type() === 'image/jpeg') { // Vérifie si l'enclosure est une image JPEG
-                                        $image_url = $enclosure->get_link();
-                                    }
-                                @endphp
-            
-                                @if ($image_url)
-                                    <img src="{{ $image_url }}" alt="Image">
-                                @else
-                                    <a style="color: blue; text-decoration: none;" href="{{$item->get_permalink()}}" target="_blank"><h5>{{$item->get_title()}}</h5></a>
-                                    <p>{{$item->get_date()}}</p>
-                                    <p>{{strip_tags($item->get_description())}}</p>
-                                @endif
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
+                @include('layout.flux_rss')
             </div>
         </div>
     </div>

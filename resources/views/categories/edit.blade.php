@@ -1,6 +1,6 @@
 @extends('layout.main')
 @php
-  $colors = ['Primary', 'Secondary', 'Info', 'Success', 'Warning', 'Danger'];
+  $colors = ['Info', 'Success', 'Warning', 'Danger'];
   $icons = ['fa-file', 'fa-filter', 'fa-folder', 'fa-folder-open', 'fa-code', 'fa-bug', 'fa-user-secret', 'fa-microchip', 'fa-terminal', 'fa-keyboard', 'fa-laptop-code'];
 @endphp
 @section('css')

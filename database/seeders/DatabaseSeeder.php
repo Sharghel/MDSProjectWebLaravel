@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     
     public function run(): void
     {
-        $colors = ['primary', 'secondary', 'info', 'success', 'warning', 'danger'];
+        $colors = ['info', 'success', 'warning', 'danger'];
         $links = ["https://www.cert.ssi.gouv.fr/feed/", "https://www.canardpc.com/feed/", "http://feeds.feedburner.com/phoenixjp/rXiW", "https://www.tomshardware.fr/feed/"];
         $icons = ['fa-file', 'fa-filter', 'fa-folder', 'fa-folder-open', 'fa-code', 'fa-bug', 'fa-user-secret', 'fa-microchip', 'fa-terminal', 'fa-keyboard', 'fa-laptop-code'];
         // Création d'un premier compte utilisateur
@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         for($i = 0; $i < 3; $i++){
             Flux::factory(1)->create([
                 'category_id' => random_int(3, 7),
-                'color' => $colors[random_int(0, 5)],
+                'color' => $colors[random_int(0, 3)],
                 'link' => $links[random_int(0, 3)],
             ]);
         }
@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
         for($i = 0; $i < 3; $i++){
             Flux::factory(1)->create([
                 'category_id' => random_int(10, 14),
-                'color' => $colors[random_int(0, 5)],
+                'color' => $colors[random_int(0, 3)],
                 'link' => $links[random_int(0, 3)],
             ]);
         }

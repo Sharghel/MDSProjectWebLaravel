@@ -15,7 +15,7 @@
 @endsection
 @section('main')
 
-<section class="content">
+<section class="content">   
     <!-- Default box -->
     <div class="card">
         <button type="button" data-toggle="modal" data-target="#modal-creation" class="btn btn-block btn-primary">Ajouter une catégorie</button>
